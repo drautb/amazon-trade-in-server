@@ -38,4 +38,5 @@
               (get-trade-in-value isbn))))
 
 (printf "Starting server on port ~a" PORT)
-(run #:port PORT)
+(run #:port PORT
+     #:listen-ip #f)
