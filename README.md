@@ -17,9 +17,9 @@ Response:
 
 ```json
 {
-  Title: "Artificial Intelligence: A Modern Approach (3rd Edition)",
-  ISBN: "9780136042594",
-  Hardcover: "$89.18"
+  "Title": "Artificial Intelligence: A Modern Approach (3rd Edition)",
+  "ISBN": "9780136042594",
+  "Hardcover": "$89.18"
 }
 ```
 
