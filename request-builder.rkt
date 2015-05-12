@@ -21,7 +21,9 @@
 
 (define PATH-TO-CONFIG
   (let ([path (environment-variables-ref (current-environment-variables) #"AWS_CONFIG")])
-    (if path path "/Users/drautb/.aws/personal-config")))
+    (if path
+        (bytes->string/utf-8 path)
+        "/Users/drautb/.aws/personal-config")))
 
 (define CONFIG-DATA (read-json (open-input-file PATH-TO-CONFIG)))
 (define ASSOCIATE-TAG (hash-ref CONFIG-DATA 'AssociateTag))

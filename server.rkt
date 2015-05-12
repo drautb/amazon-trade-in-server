@@ -7,7 +7,9 @@
 
 (define PORT
   (let ([port (environment-variables-ref (current-environment-variables) #"PORT")])
-    (if port port "8080")))
+    (if port
+        (string->number (bytes->string/utf-8 port))
+        8080)))
 
 (define (json-response-maker status headers body)
   (response status
