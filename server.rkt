@@ -22,7 +22,9 @@
 (define (json-get path handler)
   (define-handler "GET" path handler json-response-maker))
 
-(define (status) (λ () (make-hash (list (cons 'status "healthy")))))
+(define (status) (λ ()
+                   (printf "Status requested.")
+                   (make-hash (list (cons 'status "healthy")))))
 
 ;; Healthcheck
 (json-get "/" (status))
@@ -35,4 +37,5 @@
             (let ([isbn (params req 'isbn)])
               (get-trade-in-value isbn))))
 
+(printf "Starting server on port ~a" PORT)
 (run #:port PORT)

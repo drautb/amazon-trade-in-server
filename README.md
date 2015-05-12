@@ -32,7 +32,7 @@ aws cloudformation validate-template --template-body file:///Users/drautb/GitHub
 ```
 
 ```
-aws cloudformation create-stack --stack-name amazon-trade-in-server --template-body file:///Users/drautb/GitHub/amazon-trade-in-server/cloudformation.json --parameters ParameterKey=AccessKeyId,ParameterValue=[ACCESS KEY ID] ParameterKey=SecretKeyId,ParameterValue=[SECRET KEY ID] ParameterKey=AssociateTag,ParameterValue=[ASSOCIATE TAG]
+aws cloudformation create-stack --stack-name amazon-trade-in-server --template-body file:///Users/drautb/GitHub/amazon-trade-in-server/cloudformation.json --tags Key=project,Value=amazon-trade-in-server --parameters ParameterKey=AccessKeyId,ParameterValue=[ACCESS KEY ID] ParameterKey=SecretKeyId,ParameterValue=[SECRET KEY ID] ParameterKey=AssociateTag,ParameterValue=[ASSOCIATE TAG]
 ```
 
 ```

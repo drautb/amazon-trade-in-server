@@ -30,4 +30,5 @@
     results))
 
 (define (get-trade-in-value isbn)
+  (printf "get-trade-in-value for ibsn: ~a" isbn)
   (get-value isbn))
