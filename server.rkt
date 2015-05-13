@@ -11,6 +11,12 @@
         (string->number (bytes->string/utf-8 port))
         8080)))
 
+(define LOG-FILE
+  (let ([file (environment-variables-ref (current-environment-variables) #"LOG_FILE")])
+    (if file
+        (bytes->string/utf-8 file)
+        "/Users/drautb/GitHub/amazon-trade-in-server/trade-in-server.log")))
+
 (define (json-response-maker status headers body)
   (response (if (eq? body #f) 404 status)
             (status->message status)
@@ -41,4 +47,6 @@
 
 (printf "Starting server on port ~a" PORT)
 (run #:port PORT
-     #:listen-ip #f)
+     #:listen-ip #f
+     #:log-file LOG-FILE
+     #:log-format 'extended)

@@ -116,9 +116,10 @@
                 "command": "raco pkg install --deps search-auto sha web-server"
               },
               "03start-server": {
-                "command": "daemon -i -r --name=amazon-trade-in-server -O /var/log/server_stdout.out -E /var/log/server_stderr.out racket /opt/amazon-trade-in-server/server.rkt",
+                "command": "daemon -i -r --name=amazon-trade-in-server racket /opt/amazon-trade-in-server/server.rkt",
                 "env": {
                   "AWS_CONFIG": "/opt/aws-config.json",
+                  "LOG_FILE": "/var/log/trade-in-server.log",
                   "PORT": {
                     "Ref": "Port"
                   }

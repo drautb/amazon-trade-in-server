@@ -7,6 +7,15 @@
 
 (provide get-trade-in-value)
 
+(define (find-title response)
+  (or (se-path* '(Items Item ItemAttributes Title) response)
+      (se-path* '(Title) response)))
+
+(define (find-isbn response)
+  (or (se-path* '(Items Item ItemAttributes ISBN) response)
+      (se-path* '(Items Item ItemAttributes EISBN) response)
+      (se-path* '(Items Item ItemAttributes EAN) response)))
+
 (define (get-value isbn)
   (define params (make-hash))
   (hash-set! params "Operation" "ItemLookup")
@@ -23,8 +32,8 @@
     (when (se-path* '(Items Request Errors Error Code) response)
       (set! results #f))
     (when results
-      (hash-set! results 'Title (se-path* '(Items Item ItemAttributes Title) response))
-      (hash-set! results 'ISBN (se-path* '(Items Item ItemAttributes EAN) response))
+      (hash-set! results 'Title (find-title response))
+      (hash-set! results 'ISBN (find-isbn response))
       (define trade-in-options '())
       (for ([item (se-path*/list '(Items) response)])
         (when (equal? (se-path* '(IsEligibleForTradeIn) item) "1")
