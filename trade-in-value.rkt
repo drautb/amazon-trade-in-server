@@ -20,13 +20,20 @@
   (define-values (host uri) (build-request params))
   (let-values ([(status-code header in-port) (http-sendrecv host uri)])
     (define response (xml->xexpr (document-element (read-xml in-port))))
-    (hash-set! results 'Title (se-path* '(Title) response))
-    (hash-set! results 'ISBN (se-path* '(EAN) response))
-    (for ([item (se-path*/list '(Items) response)])
-      (when (equal? (se-path* '(IsEligibleForTradeIn) item) "1")
-          (hash-set! results
-                     (string->symbol (se-path* '(Binding) item))
-                     (se-path* '(TradeInValue FormattedPrice) item))))
+    (when (se-path* '(Items Request Errors Error Code) response)
+      (set! results #f))
+    (when results
+      (hash-set! results 'Title (se-path* '(Title) response))
+      (hash-set! results 'ISBN (se-path* '(EAN) response))
+      (define trade-in-options '())
+      (for ([item (se-path*/list '(Items) response)])
+        (when (equal? (se-path* '(IsEligibleForTradeIn) item) "1")
+          (set! trade-in-options
+                (cons (make-hash
+                        (list (cons (string->symbol (se-path* '(Binding) item))
+                                    (se-path* '(TradeInValue FormattedPrice) item))))
+                      trade-in-options))))
+      (hash-set! results 'TradeInOptions trade-in-options))
     results))
 
 (define (get-trade-in-value isbn)

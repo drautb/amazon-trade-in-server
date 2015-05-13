@@ -19,9 +19,17 @@ Response:
 {
   "Title": "Artificial Intelligence: A Modern Approach (3rd Edition)",
   "ISBN": "9780136042594",
-  "Hardcover": "$89.18"
+  "TradeInOptions": [
+    {
+       "Hardcover": "$89.18"
+    }
+  ]
 }
 ```
+
+`TradeInOptions` will be an empty list if the book isn't currently eligible for trade-ins.
+
+The status code will be `404` if no book with the given ISBN could be found.
 
 ### Deployment
 

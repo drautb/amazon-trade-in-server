@@ -12,12 +12,14 @@
         8080)))
 
 (define (json-response-maker status headers body)
-  (response status
+  (response (if (eq? body #f) 404 status)
             (status->message status)
             (current-seconds)
             #"application/json; charset=utf-8"
             headers
-            (lambda (op) (write-json (force body) op))))
+            (lambda (op)
+              (when body
+                (write-json (force body) op)))))
 
 (define (json-get path handler)
   (define-handler "GET" path handler json-response-maker))
