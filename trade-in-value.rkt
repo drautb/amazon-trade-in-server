@@ -23,8 +23,8 @@
     (when (se-path* '(Items Request Errors Error Code) response)
       (set! results #f))
     (when results
-      (hash-set! results 'Title (se-path* '(Title) response))
-      (hash-set! results 'ISBN (se-path* '(EAN) response))
+      (hash-set! results 'Title (se-path* '(Items Item ItemAttributes Title) response))
+      (hash-set! results 'ISBN (se-path* '(Items Item ItemAttributes EAN) response))
       (define trade-in-options '())
       (for ([item (se-path*/list '(Items) response)])
         (when (equal? (se-path* '(IsEligibleForTradeIn) item) "1")
