@@ -33,7 +33,7 @@
                      #t)
                    "Z")))
 
-(define default-params
+(define (default-params)
   (list "Service=AWSECommerceService"
         (string-append "AWSAccessKeyId=" (uri-encode ACCESS-KEY-ID))
         (string-append "AssociateTag=" (uri-encode ASSOCIATE-TAG))
@@ -73,7 +73,7 @@
     (string-append k "=" (uri-encode (hash-ref params k)))))
 
 (define (build-request params)
-  (define all-params (append default-params (condense-params params)))
+  (define all-params (append (default-params) (condense-params params)))
   (define request-to-sign (build-request-to-sign all-params))
   (define final-request (sign-request request-to-sign))
   (values HOST (build-request-uri final-request)))
