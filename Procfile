@@ -1,1 +1,1 @@
-web: ./racketapp
+web: ./run/bin/racketapp
