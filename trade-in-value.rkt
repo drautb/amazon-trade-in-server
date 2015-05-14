@@ -27,8 +27,11 @@
   (define results (make-hash))
 
   (define-values (host uri) (build-request params))
+  (log-info "action=get-value isbn=~a request-host=~a request-uri=~a" isbn host uri)
   (let-values ([(status-code header in-port) (http-sendrecv host uri)])
-    (define response (xml->xexpr (document-element (read-xml in-port))))
+    (define raw-response (read-xml in-port))
+    (log-info "action=get-value isbn=~a status-code=~a response-body=~a" isbn status-code raw-response)
+    (define response (xml->xexpr (document-element raw-response)))
     (when (se-path* '(Items Request Errors Error Code) response)
       (set! results #f))
     (when results
@@ -46,5 +49,4 @@
     results))
 
 (define (get-trade-in-value isbn)
-  (printf "get-trade-in-value for ibsn: ~a" isbn)
   (get-value isbn))

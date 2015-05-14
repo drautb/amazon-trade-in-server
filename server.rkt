@@ -9,13 +9,7 @@
   (let ([port (environment-variables-ref (current-environment-variables) #"PORT")])
     (if port
         (string->number (bytes->string/utf-8 port))
-        8080)))
-
-(define LOG-FILE
-  (let ([file (environment-variables-ref (current-environment-variables) #"LOG_FILE")])
-    (if file
-        (bytes->string/utf-8 file)
-        "/Users/drautb/GitHub/amazon-trade-in-server/trade-in-server.log")))
+        5000)))
 
 (define (json-response-maker status headers body)
   (response (if (eq? body #f) 404 status)
@@ -31,7 +25,7 @@
   (define-handler "GET" path handler json-response-maker))
 
 (define (status) (λ ()
-                   (printf "Status requested.")
+                   (log-info "Status requested.")
                    (make-hash (list (cons 'status "healthy")))))
 
 ;; Healthcheck
@@ -43,10 +37,11 @@
 (json-get "/rest/value/:isbn"
           (λ (req)
             (let ([isbn (params req 'isbn)])
-              (get-trade-in-value isbn))))
+              (log-info "action=/rest/value isbn=~a" isbn)
+              (let ([value-data (get-trade-in-value isbn)])
+                (log-info "action=/rest/value isbn=~a response=~a" isbn (jsexpr->string value-data))
+                value-data))))
 
-(printf "Starting server on port ~a" PORT)
+(log-info "Starting server on port ~a" PORT)
 (run #:port PORT
-     #:listen-ip #f
-     #:log-file LOG-FILE
-     #:log-format 'extended)
+     #:listen-ip #f)

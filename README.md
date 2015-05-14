@@ -31,20 +31,36 @@ Response:
 
 The status code will be `404` if no book with the given ISBN could be found.
 
+### Local Testing
+
+`.env` should contain the same values as the configuration environment. `foreman start` will start local server.
+
 ### Deployment
 
-Make sure AWS credentials are in your environment or in `.aws/config`.
+This app deploys to Heroku.
+
+1. Create the app. From the root project directory:
 
 ```
-aws cloudformation validate-template --template-body file:///Users/drautb/GitHub/amazon-trade-in-server/cloudformation.json
+heroku create --buildpack http://github.com/drautb/heroku-buildpack-racket.git amazon-trade-in-server
 ```
 
-```
-aws cloudformation create-stack --stack-name amazon-trade-in-server --template-body file:///Users/drautb/GitHub/amazon-trade-in-server/cloudformation.json --tags Key=project,Value=amazon-trade-in-server --parameters ParameterKey=AccessKeyId,ParameterValue=[ACCESS KEY ID] ParameterKey=SecretKeyId,ParameterValue=[SECRET KEY ID] ParameterKey=AssociateTag,ParameterValue=[ASSOCIATE TAG]
-```
+2. Make sure that a Procfile exists in the project root.
 
 ```
-aws cloudformation describe-stacks --stack-name amazon-trade-in-server
+web: ./racketapp
+```
+
+3. Configure the environment.
+
+```
+heroku config:set PLTSTDERR=info ACCESS_KEY_ID=********* SECRET_KEY_ID=************ ASSOCIATE_TAG=***********
+```
+
+4. Ship it.
+
+```
+git push heroku master
 ```
 
 Powered by [Racket][1].

@@ -19,16 +19,12 @@
 (define METHOD "GET")
 (define PATH "/onca/xml")
 
-(define PATH-TO-CONFIG
-  (let ([path (environment-variables-ref (current-environment-variables) #"AWS_CONFIG")])
-    (if path
-        (bytes->string/utf-8 path)
-        "/Users/drautb/.aws/personal-config")))
+(define (get-env-value name)
+  (bytes->string/utf-8 (environment-variables-ref (current-environment-variables) (string->bytes/utf-8 name))))
 
-(define CONFIG-DATA (read-json (open-input-file PATH-TO-CONFIG)))
-(define ASSOCIATE-TAG (hash-ref CONFIG-DATA 'AssociateTag))
-(define ACCESS-KEY-ID (hash-ref CONFIG-DATA 'AccessKeyId))
-(define SECRET-KEY-ID (hash-ref CONFIG-DATA 'SecretKeyId))
+(define ASSOCIATE-TAG (get-env-value "ASSOCIATE_TAG"))
+(define ACCESS-KEY-ID (get-env-value "ACCESS_KEY_ID"))
+(define SECRET-KEY-ID (get-env-value "SECRET_KEY_ID"))
 
 (define (current-timestamp)
   (parameterize ([date-display-format 'iso-8601])
