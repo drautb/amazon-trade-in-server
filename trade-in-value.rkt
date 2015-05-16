@@ -43,12 +43,14 @@
       (hash-set! results 'ISBN isbn)
       (define trade-in-options '())
       (for ([item (se-path*/list '(Items) response)])
-        (when (equal? (se-path* '(IsEligibleForTradeIn) item) "1")
-          (set! trade-in-options
-                (cons (make-hash
-                        (list (cons (string->symbol (se-path* '(Binding) item))
-                                    (se-path* '(TradeInValue FormattedPrice) item))))
-                      trade-in-options))))
+        (let ([eligible (se-path* '(IsEligibleForTradeIn) item)]
+              [value (se-path* '(TradeInValue FormattedPrice) item)])
+          (when (and (equal? eligible "1") value)
+            (set! trade-in-options
+                  (cons (make-hash
+                          (list (cons (string->symbol (se-path* '(Binding) item))
+                                      value)))
+                        trade-in-options)))))
       (hash-set! results 'TradeInOptions trade-in-options))
     results))
 
