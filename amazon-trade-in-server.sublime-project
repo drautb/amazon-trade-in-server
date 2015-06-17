@@ -10,7 +10,7 @@
     {
       "name": "Trade-In Server Package",
       "shell_cmd": "raco exe -o racketapp server.rkt && raco distribute run racketapp",
-      "working_dir": "/Users/drautb/GitHub/amazon-trade-in-server",
+      "working_dir": "/Users/drautb/GitHub/drautb/amazon-trade-in-server",
       "variants": [
         {
           "name": "Foreman start",
@@ -18,7 +18,7 @@
             "foreman",
             "start"
           ],
-          "working_dir": "/Users/drautb/GitHub/amazon-trade-in-server"
+          "working_dir": "/Users/drautb/GitHub/drautb/amazon-trade-in-server"
         }
       ]
     }
