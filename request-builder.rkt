@@ -14,7 +14,7 @@
 ;;
 ;; Sauce: http://docs.aws.amazon.com/AWSECommerceService/latest/DG/rest-signature.html
 
-(define SCHEME "http://")
+(define SCHEME "https://")
 (define HOST "webservices.amazon.com")
 (define METHOD "GET")
 (define PATH "/onca/xml")
