@@ -24,6 +24,9 @@
 (define (json-get path handler)
   (define-handler "GET" path handler json-response-maker))
 
+(define (json-head path handler)
+  (define-handler "HEAD" path handler json-response-maker))
+
 (define (status) (λ ()
                    (log-info "Status requested.")
                    (make-hash (list (cons 'status "healthy")))))
@@ -31,6 +34,8 @@
 ;; Healthcheck
 (json-get "/" (status))
 (json-get "/status" (status))
+(json-head "/" (status))
+(json-head "/status" (status))
 
 ;; Primary endpoint. Given an ISBN, this will attempt to
 ;; locate the AWS trade-in value of the book.
